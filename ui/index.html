@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot - I am an NLP demo bot</title>
+    <link rel="stylesheet" href="res/styles/main.css"/>
+    <!-- scripts -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+    <script src="static/scripts/main.js"></script>
+    <script src="res/scripts/main.js">
+    </script>
+  </head>
+  <body onload="initialize()">
+    <div id="top">
+      <div id="top-text"></div>
+      <div id="top-loader"></div>
+    </div>
+    <div id="bottom">
+          <input type="text" name="inp" id="bottom-text-inp" maxlength="100" autofocus placeholder="Input your description here.."></input>
+          <input type="button" name="Send" title="Send" id="bottom-text-btn" value="Send" onclick="javascript:tosend()"/>
+    </div>
+  </body>
+</html>

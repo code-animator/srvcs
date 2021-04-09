@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chatbot - I am an NLP demo bot</title>
+    <!--<link rel="stylesheet" href="static/res/styles/main.css"/>-->
+    <!--<script src="res/scripts/main.js">-->
+    <style>
+    body{
+      font-family: sans-serif;
+      font-size: 1em;
+      /*height:100%*/
+    }
+
+    #top{
+      height: 30em;
+      width: 93em;
+      border: solid 0.1em #e0e0e0;
+    }
+
+    #bottom{
+      height:2.5em;
+      width:93em;
+      //border: solid 0.1em #e0e0e0;
+    }
+
+    #bottom-text-inp{
+      height: 2.5em;
+      width: 94.5em;
+      border: solid 0.2em #000000;
+    }
+
+    #bottom-text-inp:focus, #bottom:focus, #bottom:onclick{
+      border: none;
+    }
+
+    #bottom-text-btn{
+      height: 2.9em;
+      width: 16em;
+    }
+    </style>
+    <script>
+    function initialize()
+    {
+      document.getElementById('top-text').innerHTML+='<span>I am a Chatbot!</span>';
+    }
+    function tosend()
+    {
+      d=document.getElementById('bottom-text-inp').value
+      document.getElementById('bottom-text-inp').value=''
+      console.log('send pressed');
+      console.log(d);
+      var xhttp = new XMLHttpRequest();
+      document.getElementById('top-loader').innerHTML='';
+      document.getElementById('top-text').innerHTML+='<p style=\"font-size:0.7em; color:grey; font-style:italic\">You typed: '+d+'</p>';
+      xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var myOutput=JSON.parse(this.responseText);
+        console.log(myOutput[0].status);
+        if(myOutput[0].status=1)
+        {
+          document.getElementById('top-text').innerHTML+='<p style=\"font-size:0.7em; color:grey; font-style:bold\">Predicted Potential Accident Level:</p><p style=\"font-size:0.7em; color:grey; font-style:italic\">'+myOutput[0].pred+'</p>';
+        }
+        else {
+            document.getElementById('top-text').innerHTML+='<p>I couldn\'t quite understand what you described. Could you try describing it again please? You could probably be a little more specific and give me more details for me to do better.</p>';
+        }
+        document.getElementById('top-loader').innerHTML='';
+      }
+      };
+      xhttp.open("Post", "http://127.0.0.1:8000/chat/api/get_response/", true);
+      xhttp.setRequestHeader("Content-Type", "application/json");
+      xhttp.setRequestHeader("X-CSRFToken", "QFi2AB3olLtOyXJEyR1zAVQ5vLh8BCDhY7CEPHi8wEXK8rd8TfCseQtRc2tvT3FK")
+      //alert(JSON.stringify({desc:description}));
+      xhttp.send(JSON.stringify({desc:d}));
+      document.getElementById('top-loader').innerHTML+='<img src=\'http://127.0.0.1:8000/static/res/loaders/chat.gif\' width=80em>';
+      //document.getElementById('top-text').innerHTML+='<p>Session initialized</p>';
+      document.getElementById('top-text').innerHTML+='<p>Analyzing your description</p>';
+      document.getElementById('top-text').innerHTML+='<p>Invoking the best fit machine learning model</p>';
+    }
+    function detectkey(e)
+    {
+      e = e || window.event;
+      let charCode = e.keyCode || e.which;
+      //console.log(charCode);
+      if(charCode==13)
+      {
+        tosend();
+      }
+      else {
+        //alert('keep listening');
+      }
+      return(String.fromCharCode(charCode));
+    }
+    window.addEventListener('keypress', function (e) {detectkey(e);}, false);
+    </script>
+  </head>
+  <body onload="initialize()">
+    <div id="top">
+      <div id="top-text"></div>
+      <div id="top-loader"></div>
+    </div>
+    <div id="bottom">
+          <input type="text" name="inp" id="bottom-text-inp" maxlength="300" autofocus placeholder="Input your description here.."></input>
+          <input type="button" name="Send" title="Send" id="bottom-text-btn" value="Send" onclick="javascript:tosend()"/>
+    </div>
+  </body>
+</html>

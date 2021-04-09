@@ -1,0 +1,32 @@
+body{
+  font-family: sans-serif;
+  font-size: 1em;
+  /*height:100%*/
+}
+
+#top{
+  height: 30em;
+  width: 93em;
+  border: solid 0.1em #e0e0e0;
+}
+
+#bottom{
+  height:2.5em;
+  width:93em;
+  //border: solid 0.1em #e0e0e0;
+}
+
+#bottom-text-inp{
+  height: 2.5em;
+  width: 94.5em;
+  border: solid 0.2em #000000;
+}
+
+#bottom-text-inp:focus, #bottom:focus, #bottom:onclick{
+  border: none;
+}
+
+#bottom-text-btn{
+  height: 2.9em;
+  width: 16em;
+}
